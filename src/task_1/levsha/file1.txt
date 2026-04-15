@@ -1,3 +1,39 @@
 import pandas as pd
 
 print(1,2,3,4,5,6)
+import json
+import os
+from collections import Counter
+
+with open('ysd_statistic/issues.json', 'r') as file:
+    issues = json.load(file)
+
+
+key_error = 0
+frt = 0
+rt = 0
+for item in issues:
+    # try:
+    if item["fields"]["customfield_16016"]["completedCycles"]:
+        frt += 1
+
+    if item["fields"]["customfield_25601"]["completedCycles"]:
+        rt += 1
+    elif item["fields"]["customfield_25601"].get("ongoingCycle"):
+        rt += 1
+    elif item["fields"]["customfield_15100"]["completedCycles"]:
+        rt += 1
+    elif item["fields"]["customfield_15100"].get("ongoingCycle"):
+        rt += 1
+
+    else:
+        print(item["key"])
+    # else:
+    #     print(item["key"])
+    # except KeyError:
+    #     key_error += 1
+    #     # print(item["key"])
+
+print(frt)
+print(rt)
+# print(key_error)
